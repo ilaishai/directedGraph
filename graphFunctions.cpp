@@ -57,7 +57,7 @@ void graph::printConnections(node* theNode)
 
 
 //adds a connection
-bool graph::addEdge(node* & edge, int to, int weight)
+bool graph::addEdge(node* & edge, int to, int weight, twoWay)
 {
 	if (!edge) 
 	{
@@ -68,15 +68,18 @@ bool graph::addEdge(node* & edge, int to, int weight)
 		return true;
 	}
 	else
-		return addEdge(edge -> next, to, weight);
+		return addEdge(edge -> next, to, weight, twoWay);
 }
 
-bool graph::addEdge(int from, int to, int weight)
+bool graph::addEdge(int from, int to, int weight, bool twoWay)
 {
 	if ((from < 0 || from >= SIZE) || (to < 0 || to >= SIZE))
 		return false;
-	bool value = addEdge(table[from], to, weight);
-	//value = value && addEdge(table[to], from, weight);	//comment out to keep directed
+	bool value = addEdge(table[from], to, weight, twoWay);
+
+	//keep the graph two way or directed
+	if (twoWay)
+		value = value && addEdge(table[to], from, weight, false);
 	return value;
 }
 

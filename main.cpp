@@ -1,12 +1,14 @@
 #include <iostream>
 #include <cstring>
 #include "graphADT.h"
+#include "queueADT.h"
 
 using namespace std;
 
 int main()
 {
 	graph directedGraph;
+	queue tempQueue;
 	int response = 1;
 
 	cout << "This is a program to work with a directed graph. Use the menu below for assistance." << endl;	
@@ -16,7 +18,8 @@ int main()
 		int from = 0;
 		int weight = 0;
 
-		cout << "\n0-To quit\n1-To display the graph connections\n2-To add a connection\n3-Check for a connection" << endl;
+		cout << "\n0-To quit\n1-To display the graph connections\n2-To add a connection\n3-Check for a connection"
+			<< "\n4-Traverse\n5-Enqueue item to the queue\n6-Dequeue from front\n7-Dispaly all queue\n" << endl;
 		cin >> response;
 		cin.ignore(100, '\n');
 
@@ -38,7 +41,7 @@ int main()
 				cin >> weight;
 				cin.ignore(100, '\n');
 
-				directedGraph.addEdge(from, to, weight);
+				directedGraph.addEdge(from, to, weight, false);
 				break;
 
 			case 3:
@@ -58,6 +61,18 @@ int main()
 				cin >> to;
 				cin.ignore(100, '\n');
 				cout << "The path was found: " << boolalpha << directedGraph.traversal(from, to) << endl;
+				break;
+			case 5:
+				cout << "Enter a value you want to enqueue: ";
+				cin >> to;
+				cin.ignore(100, '\n');
+				tempQueue.enqueue(to);
+				break;
+			case 6:
+				cout << tempQueue.dequeue() << endl;
+				break;
+			case 7:
+				tempQueue.displayAll();
 				break;
 		}
 	}

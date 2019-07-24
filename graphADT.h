@@ -21,11 +21,11 @@ class graph
 		void printConnections();
 		void printConnections(int theNode);	
 		bool thereExists(int dest, int connection);
-		bool addEdge(int from, int to, int weight);
+		bool addEdge(int from, int to, int weight, bool twoWay);
 
 		int traversal(int start, int dest);
 	private:
-		bool addEdge(node* & from, int to, int weight);
+		bool addEdge(node* & from, int to, int weight, bool twoWay);
 		void delRecursive(node* head);
 		void printConnections(node* theNode);
 

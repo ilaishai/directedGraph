@@ -1,5 +1,6 @@
 #include "queueADT.h"
 #include <cstring>
+#include <iostream>
 
 using namespace std;
 
@@ -26,7 +27,7 @@ queue::~queue()
 }
 
 
-void queue:enqueue(int vertex)
+void queue::enqueue(int vertex)
 {
 	if (!rear)
 	{
@@ -73,4 +74,18 @@ int queue::dequeue()
 		return vertex;
 	}
 
+}
+
+
+void queue::displayAll()
+{
+	if (front)
+	{
+		queueNode* current = front;
+		do
+		{
+			cout << current -> vertex;
+			current = current -> next;
+		} while (current != rear -> next);
+	}
 }
