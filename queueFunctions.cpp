@@ -89,3 +89,11 @@ void queue::displayAll()
 		} while (current != rear -> next);
 	}
 }
+
+bool queue::isFull()
+{
+	if (front)
+		return true;
+	else
+		return false;
+}

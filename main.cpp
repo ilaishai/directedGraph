@@ -17,11 +17,14 @@ int main()
 		int to = 0;
 		int from = 0;
 		int weight = 0;
-
+		int temp = 0;
+		
+		cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
 		cout << "\n0-To quit\n1-To display the graph connections\n2-To add a connection\n3-Check for a connection"
 			<< "\n4-Traverse\n5-Enqueue item to the queue\n6-Dequeue from front\n7-Dispaly all queue\n" << endl;
 		cin >> response;
 		cin.ignore(100, '\n');
+		cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
 
 		switch (response)
 		{
@@ -31,13 +34,13 @@ int main()
 				directedGraph.printConnections();
 				break;
 			case 2:
-				cout << "What node do you want to stretch a connection from?" << endl;
+				cout << "\nEnter the node from which you want to stretch the connection: ";
 				cin >> from;
 				cin.ignore(100, '\n');
-				cout << "Which node do you want to connect it to?" << endl;
+				cout << "\nEnter the node to which you want to connect: ";
 				cin >> to;
 				cin.ignore(100, '\n');
-				cout << "What is the weight of the connection?" << endl;
+				cout << "\nEnter the conneciton weight: ";
 				cin >> weight;
 				cin.ignore(100, '\n');
 
@@ -45,25 +48,26 @@ int main()
 				break;
 
 			case 3:
-				cout << "Enter a value you want to check for a connection for" << endl;
+				cout << "\nEnter a value you want to check a connection for: ";
 				cin >> from;
 				cin.ignore(100, '\n');
-				cout << "Enter the connection you're looking for" << endl;
+				cout << "\nEnter the connection you're looking for: ";
 				cin >> to;
 				cin.ignore(100, '\n');
-				cout << "The connection exists: " << boolalpha << directedGraph.thereExists(from, to) << endl;
+				cout << "\nThe connection exists: " << boolalpha << directedGraph.thereExists(from, to) << endl;
 				break;
 			case 4:
-				cout << "Enter the starting location: ";
+				cout << "\nEnter the starting location: ";
 				cin >> from;
 				cin.ignore(100, '\n');
-				cout << "\nEnter the destination you would like to reach: " << endl;
+				cout << "\nEnter the destination you would like to reach: ";
 				cin >> to;
 				cin.ignore(100, '\n');
-				cout << "The path was found: " << boolalpha << directedGraph.traversal(from, to) << endl;
+				temp = directedGraph.traversal(from, to);
+				cout << "\nThe path was found: " << boolalpha << temp << endl;
 				break;
 			case 5:
-				cout << "Enter a value you want to enqueue: ";
+				cout << "\nEnter a value you want to enqueue: ";
 				cin >> to;
 				cin.ignore(100, '\n');
 				tempQueue.enqueue(to);
@@ -73,6 +77,9 @@ int main()
 				break;
 			case 7:
 				tempQueue.displayAll();
+				break;
+			case 8:
+				cout << "\nThe queue is empty: " << boolalpha << tempQueue.isFull() << endl;
 				break;
 		}
 	}

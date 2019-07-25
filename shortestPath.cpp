@@ -1,49 +1,43 @@
 #include "graphADT.h"
+#include "queueADT.h"
 #include <cstring>
 
 using namespace std;
 
 int graph::traversal(int start, int dest)
 {
-	int* path = 0;
-	cout << "[" << start << "]" << endl;
-	return traversal(start, dest, 0);
-}
+	queue priorityQueue;
+	bool found = false;
+	int countVisited = 0;
+	bool* verticesVisited = new bool[SIZE];
+	for (int i = 0; i < SIZE; ++i)
+		verticesVisited[i] = 0;
 
-int graph::traversal(int start, int dest, int path)
-{
-	int result = 0;
-	if (start == dest)
+	priorityQueue.enqueue(start);
+	while (priorityQueue.isFull() && !found)
 	{
-		cout << "Arrived" << endl;
+		int now = priorityQueue.dequeue();
+		node* current = table[now];
+		cout << "Working on " << now << endl;
+		while (current && !found)
+		{
+			int neighbor = current -> connection;
+			if (neighbor == dest)
+				found = true;
+			if (!verticesVisited[neighbor])
+			{
+				cout << "	checking out " << neighbor << endl;
+				verticesVisited[neighbor] = true;
+				priorityQueue.enqueue(neighbor);
+			}
+			current = current -> next;
+		}
+	}
+	
+	delete[] verticesVisited;
+
+	if (found)
 		return 1;
-	}
-	node* current = table[start];
-	while (current)
-	{
-		result = traversal(current -> connection, dest, path + current -> weight);
-		current = current -> next;
-	}
-	return result;
-
-
-	/*
-	node* current = table[start];
-	while (current)
-	{
-
-		if (current -> connection == dest)
-		{
-			cout << "[" << current -> connection << "]" << endl;
-			return 1;
-		}
-
-		if (current -> next)
-		{
-			int result = traversal(current -> next -> connection, dest, path + current -> weight);
-			if (result)
-				cout << current -> connection;
-			return result;
-		}
-	}*/
+	else
+		return 0;
 }

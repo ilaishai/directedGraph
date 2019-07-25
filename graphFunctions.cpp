@@ -57,7 +57,7 @@ void graph::printConnections(node* theNode)
 
 
 //adds a connection
-bool graph::addEdge(node* & edge, int to, int weight, twoWay)
+bool graph::addEdge(node* & edge, int to, int weight, bool twoWay)
 {
 	if (!edge) 
 	{

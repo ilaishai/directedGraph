@@ -18,6 +18,7 @@ class queue
 		void enqueue(int vertex);
 		int dequeue();
 		void displayAll();
+		bool isFull();
 	private:
 		queueNode* rear = NULL;
 		queueNode* front = NULL;
