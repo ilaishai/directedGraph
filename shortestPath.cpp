@@ -7,37 +7,41 @@ using namespace std;
 int graph::traversal(int start, int dest)
 {
 	queue priorityQueue;
-	bool found = false;
+	int smallestDistance = -1;
 	int countVisited = 0;
+	int totalWeight = 0;
 	bool* verticesVisited = new bool[SIZE];
 	for (int i = 0; i < SIZE; ++i)
 		verticesVisited[i] = 0;
 
-	priorityQueue.enqueue(start);
-	while (priorityQueue.isFull() && !found)
+	priorityQueue.enqueue(start, 0);
+	while (priorityQueue.isFull())
 	{
-		int now = priorityQueue.dequeue();
-		node* current = table[now];
-		cout << "Working on " << now << endl;
-		while (current && !found)
+		queueNode* nowNode = priorityQueue.dequeue();
+		node* current = table[nowNode -> vertex];
+		cout << "Working on " << nowNode -> vertex << " (" << nowNode -> cumulativeWeight << ")" << endl;
+		while (current)
 		{
 			int neighbor = current -> connection;
+			int currentWeight = current -> weight;
+
+			totalWeight = nowNode -> cumulativeWeight + currentWeight;
 			if (neighbor == dest)
-				found = true;
+			{
+				if (smallestDistance == -1 || smallestDistance < totalWeight)
+					smallestDistance = totalWeight;
+			}
 			if (!verticesVisited[neighbor])
 			{
 				cout << "	checking out " << neighbor << endl;
 				verticesVisited[neighbor] = true;
-				priorityQueue.enqueue(neighbor);
+				priorityQueue.enqueue(neighbor, totalWeight);
 			}
 			current = current -> next;
 		}
+		delete nowNode;
 	}
 	
 	delete[] verticesVisited;
-
-	if (found)
-		return 1;
-	else
-		return 0;
+	return smallestDistance;
 }

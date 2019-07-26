@@ -27,12 +27,13 @@ queue::~queue()
 }
 
 
-void queue::enqueue(int vertex)
+void queue::enqueue(int vertex, int cumulativeWeight)
 {
 	if (!rear)
 	{
 		rear = new queueNode;
 		rear -> vertex = vertex;
+		rear -> cumulativeWeight = cumulativeWeight;
 		front = rear;
 		rear -> next = front;
 	}
@@ -40,6 +41,7 @@ void queue::enqueue(int vertex)
 	{
 		queueNode* temp = new queueNode;
 		temp -> vertex = vertex;
+		temp -> cumulativeWeight = cumulativeWeight;
 		rear -> next = temp;
 		rear = rear -> next;
 		rear -> next = front;
@@ -47,17 +49,22 @@ void queue::enqueue(int vertex)
 }
 
 
-int queue::dequeue()
+queueNode* queue::dequeue()
 {
+	queueNode* returnedNode = new queueNode;
 	if (!front)
 	{
-		return -1;
+		returnedNode -> vertex = -1;
+		returnedNode -> cumulativeWeight = -1;
 	}
 	else
 	{
 		queueNode* temp = NULL;
 		int vertex = front -> vertex;
+		int cumulativeWeight = front -> cumulativeWeight;
 
+		returnedNode -> vertex = vertex;
+		returnedNode -> cumulativeWeight = cumulativeWeight;
 		if (front != rear)
 		{
 			temp = front -> next;
@@ -71,9 +78,8 @@ int queue::dequeue()
 			front = NULL;
 			rear = NULL;
 		}
-		return vertex;
 	}
-
+	return returnedNode;
 }
 
 
@@ -84,7 +90,7 @@ void queue::displayAll()
 		queueNode* current = front;
 		do
 		{
-			cout << current -> vertex;
+			cout << "Vertex: " << current -> vertex << " Cumulative Weight: " << current -> cumulativeWeight << endl;
 			current = current -> next;
 		} while (current != rear -> next);
 	}
