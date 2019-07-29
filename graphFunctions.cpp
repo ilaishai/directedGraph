@@ -67,6 +67,15 @@ bool graph::addEdge(node* & edge, int to, int weight, bool twoWay)
 		edge -> next = NULL;
 		return true;
 	}
+	else if (edge -> next && edge -> next -> weight > weight)
+	{
+		node* temp = new node;
+		temp -> connection = to;
+		temp -> weight = weight;
+		temp -> next = edge -> next;
+		edge -> next = temp;
+		return true;
+	}
 	else
 		return addEdge(edge -> next, to, weight, twoWay);
 }
@@ -75,11 +84,24 @@ bool graph::addEdge(int from, int to, int weight, bool twoWay)
 {
 	if ((from < 0 || from >= SIZE) || (to < 0 || to >= SIZE))
 		return false;
+
+	if (table[from])
+	{
+		if (table[from] -> weight > weight)
+		{
+			node* temp = table[from];
+			table[from] = new node;
+			table[from] -> connection = to;
+			table[from] -> weight = weight;
+			table[from] -> next = temp;
+			return true;
+		}
+	}
 	bool value = addEdge(table[from], to, weight, twoWay);
 
 	//keep the graph two way or directed
 	if (twoWay)
-		value = value && addEdge(table[to], from, weight, false);
+		value = value && addEdge(to, from, weight, false);
 	return value;
 }
 
