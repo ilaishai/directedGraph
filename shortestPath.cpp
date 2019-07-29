@@ -10,9 +10,11 @@ int graph::traversal(int start, int dest)
 	int smallestDistance = -1;
 	int countVisited = 0;
 	int totalWeight = 0;
-	bool* verticesVisited = new bool[SIZE];
+	//bool* verticesVisited = new bool[SIZE];
+	int* verticesVisited = new int[SIZE];
+
 	for (int i = 0; i < SIZE; ++i)
-		verticesVisited[i] = 0;
+		verticesVisited[i] = -1;
 
 	priorityQueue.enqueue(start, 0);
 	while (priorityQueue.isFull())
@@ -26,16 +28,16 @@ int graph::traversal(int start, int dest)
 			int currentWeight = current -> weight;
 
 			totalWeight = nowNode -> cumulativeWeight + currentWeight;
-			if (neighbor == dest)
-			{
-				if (smallestDistance == -1 || smallestDistance < totalWeight)
-					smallestDistance = totalWeight;
-			}
-			if (!verticesVisited[neighbor])
+			if (verticesVisited[neighbor] == -1 || verticesVisited[neighbor] > totalWeight)
 			{
 				cout << "	checking out " << neighbor << endl;
-				verticesVisited[neighbor] = true;
+				verticesVisited[neighbor] = totalWeight;
 				priorityQueue.enqueue(neighbor, totalWeight);
+			}
+			if (neighbor == dest)
+			{
+				if (smallestDistance == -1 || smallestDistance > totalWeight)
+					smallestDistance = totalWeight;
 			}
 			current = current -> next;
 		}
