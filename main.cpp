@@ -2,13 +2,16 @@
 #include <cstring>
 #include "graphADT.h"
 #include "queueADT.h"
+#include "stackADT.h"
 
 using namespace std;
+
 
 int main()
 {
 	graph directedGraph;
 	queue tempQueue;
+	stack tempStack;
 	int response = 1;
 
 	cout << "This is a program to work with a directed graph. Use the menu below for assistance." << endl;	
@@ -18,15 +21,21 @@ int main()
 		int input1 = 0;
 		int weight = 0;
 		int temp = 0;
-		queueNode* tempNode;
-		
+		queueNode* tempQueueNode;
+		stackNode* tempStackNode;
+
+
 		cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
 		cout << "\n0-To quit\n1-To display the graph connections\n2-To add a connection\n3-Check for a connection"
-			<< "\n4-Traverse\n5-Enqueue item to the queue\n6-Dequeue from front\n7-Dispaly all queue\n" << endl;
+			<< "\n4-Traverse\n5-Enqueue item to the queue\n6-Dequeue from front\n7-Dispaly all queue"
+			<< "\n9-Push an item on the stack\n10-Pop an item from the stack\n11-Display all in the stack\n" << endl;
 		cin >> response;
 		cin.ignore(100, '\n');
 		cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
 
+
+		//only cases 1-4 are crucial for the directed graph algorithm. The rest are used for testing
+		//the different data structures used in the algorithm.
 		switch (response)
 		{
 			case 0:
@@ -77,15 +86,35 @@ int main()
 				tempQueue.enqueue(input1, input2);
 				break;
 			case 6:
-				tempNode = tempQueue.dequeue();	
-				cout << "Vertex: " << tempNode -> vertex << " Cumulative Weight: " << tempNode -> cumulativeWeight << endl;
-				delete tempNode;
+				tempQueueNode = tempQueue.dequeue();	
+				cout << "Vertex: " << tempQueueNode -> vertex << " Cumulative Weight: " << tempQueueNode -> cumulativeWeight << endl;
+				delete tempQueueNode;
 				break;
 			case 7:
 				tempQueue.displayAll();
 				break;
 			case 8:
 				cout << "\nThe queue is empty: " << boolalpha << tempQueue.isFull() << endl;
+				break;
+
+			case 9:
+				cout << "\nEnter a value you want to push: ";
+				cin >> input1;
+				cin.ignore(100, '\n');
+				cout << "\nEnter the weight of the value: ";
+				cin >> input2;
+				cin.ignore(100, '\n');
+				tempStack.push(input1, input2, 69);
+				break;
+
+			case 10:	
+				tempStackNode = tempStack.pop();	
+				cout << "Vertex: " << tempStackNode -> vertex << " Cumulative Weight: " << tempStackNode -> cumulativeWeight << endl;
+				delete tempStackNode;
+				break;
+
+			case 11:
+				tempStack.displayAll();
 				break;
 		}
 	}

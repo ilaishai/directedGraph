@@ -7,6 +7,9 @@ using namespace std;
 int graph::traversal(int start, int dest)
 {
 	queue priorityQueue;
+	
+	queue tempQueue;
+
 	int smallestDistance = -1;
 	int countVisited = 0;
 	int totalWeight = 0;
@@ -17,6 +20,7 @@ int graph::traversal(int start, int dest)
 		verticesVisited[i] = -1;
 
 	priorityQueue.enqueue(start, 0);
+	tempQueue.enqueue(start, 0);
 	while (priorityQueue.isFull())
 	{
 		queueNode* nowNode = priorityQueue.dequeue();
@@ -33,6 +37,8 @@ int graph::traversal(int start, int dest)
 				cout << "	checking out " << neighbor << endl;
 				verticesVisited[neighbor] = totalWeight;
 				priorityQueue.enqueue(neighbor, totalWeight);
+				tempQueue.enqueue(neighbor, totalWeight);
+
 			}
 			if (neighbor == dest)
 			{
@@ -43,7 +49,7 @@ int graph::traversal(int start, int dest)
 		}
 		delete nowNode;
 	}
-	
+	tempQueue.displayAll();
 	delete[] verticesVisited;
 	return smallestDistance;
 }

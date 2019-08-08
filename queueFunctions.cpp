@@ -4,6 +4,8 @@
 
 using namespace std;
 
+
+//constructor for the queue object
 queue::queue()
 {
 	rear = NULL;
@@ -11,6 +13,7 @@ queue::queue()
 }
 
 
+//destructor for the queue object
 queue::~queue()
 {
 	queueNode* temp = NULL;
@@ -27,6 +30,7 @@ queue::~queue()
 }
 
 
+//add an item at the end
 void queue::enqueue(int vertex, int cumulativeWeight)
 {
 	if (!rear)
