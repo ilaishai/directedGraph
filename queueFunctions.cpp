@@ -56,6 +56,7 @@ void queue::enqueue(int vertex, int cumulativeWeight)
 queueNode* queue::dequeue()
 {
 	queueNode* returnedNode = new queueNode;
+	//nothing to remove
 	if (!front)
 	{
 		returnedNode -> vertex = -1;
@@ -100,6 +101,7 @@ void queue::displayAll()
 	}
 }
 
+//is there anything left in the chain
 bool queue::isFull()
 {
 	if (front)

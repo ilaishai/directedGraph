@@ -14,6 +14,7 @@ graph::graph()
 	}
 }
 
+//recursively remove the given chain
 void graph::delRecursive(node* head)
 {
 	if (!head)
@@ -39,6 +40,7 @@ void graph::printConnections()
 		printConnections(i);
 }
 
+//parent function for printing
 void graph::printConnections(int theNode)
 {
 	cout << "[" << theNode << "]";
@@ -46,6 +48,7 @@ void graph::printConnections(int theNode)
 	cout << " ---> NULL" << endl;
 }
 
+//traverse through the chain recursively printing it out
 void graph::printConnections(node* theNode)
 {
 	if (!theNode)

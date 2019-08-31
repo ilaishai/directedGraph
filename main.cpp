@@ -104,12 +104,12 @@ int main()
 				cout << "\nEnter the weight of the value: ";
 				cin >> input2;
 				cin.ignore(100, '\n');
-				tempStack.push(input1, input2, 69);
+				tempStack.push(input1);
 				break;
 
 			case 10:	
 				tempStackNode = tempStack.pop();	
-				cout << "Vertex: " << tempStackNode -> vertex << " Cumulative Weight: " << tempStackNode -> cumulativeWeight << endl;
+				cout << "Vertex: " << tempStackNode -> vertex << endl;
 				delete tempStackNode;
 				break;
 

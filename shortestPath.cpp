@@ -1,23 +1,34 @@
 #include "graphADT.h"
 #include "queueADT.h"
+#include "stackADT.h"
 #include <cstring>
 
 using namespace std;
 
+struct visitInfo
+{
+	int weight;
+	int inducedBy;
+};
+
+
+void traverseArray(int current, int find, visitInfo* array, stack* pathOrder);
+
 int graph::traversal(int start, int dest)
 {
 	queue priorityQueue;
-	
 	queue tempQueue;
+	stack pathOrder;
 
 	int smallestDistance = -1;
 	int countVisited = 0;
 	int totalWeight = 0;
 	//bool* verticesVisited = new bool[SIZE];
-	int* verticesVisited = new int[SIZE];
+	visitInfo* verticesVisited = new visitInfo[SIZE];
+
 
 	for (int i = 0; i < SIZE; ++i)
-		verticesVisited[i] = -1;
+		verticesVisited[i].weight = -1;
 
 	priorityQueue.enqueue(start, 0);
 	tempQueue.enqueue(start, 0);
@@ -32,10 +43,11 @@ int graph::traversal(int start, int dest)
 			int currentWeight = current -> weight;
 
 			totalWeight = nowNode -> cumulativeWeight + currentWeight;
-			if (verticesVisited[neighbor] == -1 || verticesVisited[neighbor] > totalWeight)
+			if (verticesVisited[neighbor].weight == -1 || verticesVisited[neighbor].weight > totalWeight)
 			{
-				cout << "	checking out " << neighbor << endl;
-				verticesVisited[neighbor] = totalWeight;
+				cout << "	checking out " << neighbor << " induced by " << nowNode -> vertex << endl;
+				verticesVisited[neighbor].weight = totalWeight;
+				verticesVisited[neighbor].inducedBy = nowNode -> vertex;
 				priorityQueue.enqueue(neighbor, totalWeight);
 				tempQueue.enqueue(neighbor, totalWeight);
 
@@ -50,10 +62,27 @@ int graph::traversal(int start, int dest)
 		delete nowNode;
 	}
 	tempQueue.displayAll();
+
+	if (smallestDistance != -1)
+		traverseArray(dest, start, verticesVisited, &pathOrder);
+	
+	pathOrder.displayAll();
+	
 	delete[] verticesVisited;
 	return smallestDistance;
 }
 
-//TODO: THE GRAPH CURRENTLY PRIORITIZES CONNECTIONS THAT REQUIRE FEWER TRAVERSALS OVER SMALLER WEIGHTS.
-//TODO: CHANGE THE verticesVisited ARRAY FROM BOOL TO INT AND KEEP TRACK OF THE DISTANCE TRAVELED THUS FAR PER CONNECTION
-//AND MAKE IT SO THE VALUE GOES DOWN FOR FINDS IF SOME NODE COULD BE REACHED BY A BETTER PATH
+
+//the array keeps track of the verteces, as well as the cheapest vertex
+//leading there. This goes backwards from the dest through the start and 
+//adds it to a stack
+void traverseArray(int current, int find, visitInfo* array, stack* pathOrder)
+{
+	if (current == find)
+		pathOrder -> push(current);
+	else
+	{
+		pathOrder -> push(current);
+		traverseArray(array[current].inducedBy, find, array, pathOrder);
+	}
+}
